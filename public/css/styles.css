@@ -1,0 +1,77 @@
+/* tables */
+tbody tr {
+  height: 100px;
+}
+
+tr th {
+  padding: 0 !important;
+}
+
+thead tr {
+  text-align: center;
+  font-size: 1px;
+}
+
+.inner_cell {
+  height: 15px;
+  line-height: 0.7;  
+}
+
+.change {
+  background-color: gray;
+}
+
+/* popup */
+.popup-overlay {
+  /*Hides pop-up when there is no "active" class*/
+  visibility: hidden;
+  position: absolute;
+  background: rgb(183, 226, 240);
+  border-radius: 30px;
+  width: 50%;
+  height: 35%;
+  left: 25%;
+  top: 25%;
+  z-index: 1;
+  padding: 10px;
+}
+
+.popup-overlay.active {
+  /*displays pop-up when "active" class is present*/
+  visibility: visible;
+  text-align: center;
+}
+
+.popup-content {
+  /*Hides pop-up content when there is no "active" class */
+  visibility: hidden;
+}
+
+.popup-content.active {
+  /*Shows pop-up content when "active" class is present */
+  visibility: visible;
+}
+
+.background_change {
+  /* background-color: rgba(0,0,0,0.1); */
+  opacity: 0.3;
+}
+
+/* input field */
+.field .text-field {
+  width: 305px;
+  height: 30px;
+  margin: 5px;
+}
+
+.field .field_second {
+  width: 150px !important;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.close_button, .submit_button {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
