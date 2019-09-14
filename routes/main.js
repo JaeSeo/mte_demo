@@ -9,6 +9,6 @@ const router = express.Router();
 // GET
 router.get('/', mainController.getIndex);
 // POST
-router.post('/', mainController.postMessages);
+router.post('/add_schedule', mainController.postSchedule);
 
 module.exports = router;
