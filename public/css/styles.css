@@ -1,4 +1,30 @@
+/* body */
+.body {
+  background-image: url("images/mte.png");
+  background-repeat: no-repeat;
+}
+
 /* tables */
+.table-boby {
+  margin-top: 0px;
+}
+
+#month {
+  display: inline-block;
+  /* float: right; */
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 0px;
+}
+
+.table-head {
+  background-color: #a6d0f7;
+}
+
+.table-head tr th {
+  font-size: 15px;
+}
+
 tbody tr {
   height: 100px;
 }
@@ -15,10 +41,11 @@ thead tr {
 .inner_cell {
   height: 15px;
   line-height: 0.7;  
+  text-align: center;
 }
 
 .change {
-  background-color: gray;
+  background-color: #a6d0f7;
 }
 
 /* popup */
@@ -54,7 +81,7 @@ thead tr {
 
 .background_change {
   /* background-color: rgba(0,0,0,0.1); */
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 /* input field */

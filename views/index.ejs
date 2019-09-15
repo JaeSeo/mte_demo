@@ -10,9 +10,11 @@
 </head>
 
 <body class="body">
-  <div class="table_body mt-5 mx-auto" style="width: 1200px;">
+  <img src="images/mte.png" id="logo">
+  <div class="table-body mx-auto" style="width: 1200px;">
+    <div id="month">September 2019</div>
     <table class="table table-bordered">
-      <thead class="table-info">
+      <thead class="table-head">
         <tr>
           <th scope="col" style="width: 10%">Sun</th>
           <th scope="col" style="width: 10%">Mon</th>
@@ -24,19 +26,30 @@
         </tr>
       </thead>
       <tbody>
+        <% let date = 1 %>
+        
+        <%# 테이블 행 while문 %>
         <% let tbl_row = 0 %>
         <% while (tbl_row < 5) { %>
         <tr>
+          <%# 테이블 열 while문 %>
           <% let tbl_column = 0 %>
-          <% while (tbl_column < 7) { %>
+          <% while (tbl_column < 7 && date < 32) { %>
           <th scope="row">
+            <%# 날짜 추가 %>
+            <%= date %>
+            <% date++ %>
+
+            <%# cell 추가 while문 %>            
             <% let cell = 0 %>
             <% while (cell < 6) { %>
-              <% console.log(cell) %>
-              <div class="inner_cell" value=<%= cell %>>
+
+              <%# cell 식별 id 설정 %>
+              <% let cell_id = [cell, date] %>
+              <div class="inner_cell" value=<%= cell_id %>>
+                <%# DB에서 값 받아서 렌더링 %>
                 <% for (let schedule of schedules) { %>
-                  <% console.log(cell) %>
-                  <% if (schedule.cellId == cell) { %>
+                  <% if (schedule.cellId == cell_id) { %>
                     <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
                     <% break %>
                   <% } %>
