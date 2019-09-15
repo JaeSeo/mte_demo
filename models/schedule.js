@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const scheduleSchema = new Schema({
+  cellId: {
+    type: String,
+    required: true
+  },  
   sa: {
     type: String,
     required: true

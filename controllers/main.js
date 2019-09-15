@@ -2,11 +2,44 @@ const mongoose = require('mongoose');
 
 const Schedule = require('../models/schedule');
 
+// exports.getIndex = (req, res, next) => {
+//     res.render('index');
+// };
+
 exports.getIndex = (req, res, next) => {
-    res.render('index');
+  Schedule.find()
+    .then(schedules => {
+      console.log(schedules);
+      res.render('index', {
+        schedules: schedules
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
+// exports.getIndex = (req, res, next) => {
+//     Schedule.find()
+//     .then(schedules => {
+//         for (let schedule of schedules) {
+//             console.log(schedule);
+//             res.render('index', {
+//                 schedule: schedule
+//             });
+//         };
+//     })
+//     .catch(err => {
+//     const error = new Error(err);
+//     error.httpStatusCode = 500;
+//     return next(error);
+//     });
+// };  
+
 exports.postSchedule = (req, res, next) => {
+  const cellId = req.body.cellId;
   const sa = req.body.sa;
   const sales = req.body.sales;
   const account = req.body.account;
@@ -15,6 +48,7 @@ exports.postSchedule = (req, res, next) => {
   const room = req.body.room;
 
   const schedule = new Schedule({
+    cellId: cellId,
     sa: sa,
     sales: sales,
     account: account,

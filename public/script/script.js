@@ -9,6 +9,8 @@ function colorRemove() {
 }
 
 $(".inner_cell").on("click", function() {
+  let cellId = $(this).attr('value');
+  $('.field').prepend(`<input type="hidden" id="dynamic_input" name="cellId" value=${cellId}>`);
   $(".popup-overlay, .popup-content").addClass("active");
   $(".table_body").addClass("background_change");
 });

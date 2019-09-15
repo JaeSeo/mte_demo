@@ -1,0 +1,92 @@
+              <% let i = 0 %>
+              <% while (i < 7) { %>
+              <th scope="row">
+                <% let cell = 0 %>
+                <% while (cell < 6) { %>
+                  <% console.log(cell) %>
+                  <div class="inner_cell" value=<%= cell %>>
+                    <% for (let schedule of schedules) { %>
+                      <% console.log(cell) %>
+                      <% if (schedule.cellId == cell) { %>
+                        <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                        <% break %>
+                      <% } %>
+                    <% } %>  
+                  </div>
+                  <% cell++ %>
+                <% } %>
+              </th>
+              <% i++ %>
+              <% } %>  
+
+
+
+              <tr>
+                <% let i = 0 %>
+                <% while (i < 7) { %>
+                <th scope="row">
+                  <% let cell = 0 %>
+                  <% while (cell < 6) { %>
+                    <% console.log(cell) %>
+                    <div class="inner_cell" value=<%= cell %>>
+                      <% for (let schedule of schedules) { %>
+                        <% console.log(cell) %>
+                        <% if (schedule.cellId == cell) { %>
+                          <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                          <% break %>
+                        <% } %>
+                      <% } %>  
+                    </div>
+                    <% cell++ %>
+                  <% } %>
+                </th>
+                <% i++ %>
+                <% } %>              
+              </tr>                 
+
+                <th scope="row">
+                  <% let cell = 0 %>
+                  <% while (cell < 6) { %>
+                    <% console.log(cell) %>
+                    <div class="inner_cell" value=<%= cell %>>
+                      <% for (let schedule of schedules) { %>
+                        <% console.log(cell) %>
+                        <% if (schedule.cellId == cell) { %>
+                          <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                          <% break %>
+                        <% } %>
+                      <% } %>  
+                    </div>
+                    <% cell++ %>
+                  <% } %>
+                </th>
+
+
+                <tbody>
+                    <% let tbl_row = 0 %>
+                    <% while (tbl_row < 5) { %>
+                    <tr>
+                      <% let tbl_column = 0 %>
+                      <% while (tbl_column < 7) { %>
+                      <th scope="row">
+                        <% let cell = 0 %>
+                        <% while (cell < 6) { %>
+                          <% console.log(cell) %>
+                          <div class="inner_cell" value=<%= cell %>>
+                            <% for (let schedule of schedules) { %>
+                              <% console.log(cell) %>
+                              <% if (schedule.cellId == cell) { %>
+                                <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                                <% break %>
+                              <% } %>
+                            <% } %>  
+                          </div>
+                          <% cell++ %>
+                        <% } %>
+                      </th>
+                      <% tbl_column++ %>
+                      <% } %>                             
+                    </tr>
+                    <% tbl_row++ %>  
+                    <% } %>      
+                  </tbody>                
