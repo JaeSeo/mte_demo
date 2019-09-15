@@ -24,7 +24,11 @@
         </tr>
       </thead>
       <tbody>
+        <% let tbl_row = 0 %>
+        <% while (tbl_row < 5) { %>
         <tr>
+          <% let tbl_column = 0 %>
+          <% while (tbl_column < 7) { %>
           <th scope="row">
             <% let cell = 0 %>
             <% while (cell < 6) { %>
@@ -41,49 +45,11 @@
               <% cell++ %>
             <% } %>
           </th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>                      
-        </tr>        
-        <tr>
-          <th scope="row">1</th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>  
-        <tr>
-          <th scope="row">1</th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>                      
+          <% tbl_column++ %>
+          <% } %>                             
         </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>                      
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>                      
-        </tr>
+        <% tbl_row++ %>  
+        <% } %>      
       </tbody>
     </table>
   </div>
