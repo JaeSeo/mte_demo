@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 const Schedule = require('../models/schedule');
 
-// exports.getIndex = (req, res, next) => {
-//     res.render('index');
-// };
-
 exports.getIndex = (req, res, next) => {
   Schedule.find()
     .then(schedules => {
@@ -64,6 +60,7 @@ exports.postSchedule = (req, res, next) => {
       res.redirect('/');
     })
     .catch(err => {
+      res.render('error');
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
