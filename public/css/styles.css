@@ -45,6 +45,7 @@ thead tr {
   padding: 0;
   font-size: 12px;
   font-weight: bold;
+  border-top: dotted thin #a6d0f7;
 }
 
 .change {
