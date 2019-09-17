@@ -94,3 +94,95 @@
                   <% let cell_array = [] %>
                   <% cell_array.push(cell_id) %>
                   <% console.log(cell_array) %>
+
+
+                  <!-- rendering views -->
+<body class="body"> 
+    <img src="images/mte.png" style="width: 100%" id="logo">
+    <div class="table-body mx-auto" style="width: 1200px;">
+      <div id="month">September 2019</div>
+      <table class="table table-bordered">
+        <thead class="table-head">
+          <tr>
+            <th scope="col" style="width: 10%">Sun</th>
+            <th scope="col" style="width: 10%">Mon</th>
+            <th scope="col" style="width: 10%">Tue</th>
+            <th scope="col" style="width: 10%">Wed</th>
+            <th scope="col" style="width: 10%">Thu</th>
+            <th scope="col" style="width: 10%">Fri</th>
+            <th scope="col" style="width: 10%">Sat</th>                        
+          </tr>
+        </thead>
+        <tbody>
+          <% let date = 1 %>
+          
+          <%# 테이블 행 while문 %>
+          <% let tbl_row = 0 %>
+          <% while (tbl_row < 5) { %>
+          <tr>
+            <%# 테이블 열 while문 %>
+            <% let tbl_column = 0 %>
+            <% while (tbl_column < 7 && date < 32) { %>
+            <th scope="row">
+              <%# 날짜 추가 %>
+              <div style="background-color: rgb(255, 242, 221)">
+              <%= date %>
+              <% date++ %>
+              </div>
+  
+              <%# cell 추가 while문 %>            
+              <% let cell = 0 %>
+              <% while (cell < 6) { %>
+  
+                <%# cell 식별 id 설정 %>
+                <% let cell_id = [cell, date] %>
+                <div class="inner_cell" id=<%= cell_id %>>
+                  <%# DB에서 값 받아서 렌더링 %>
+                  <% for (let schedule of schedules) { %>
+                    <% if (schedule.cellId == cell_id) { %>
+                      <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px;">                    
+                      <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                      </div>
+                      <% break %>
+                    <% } %>
+                  <% } %>  
+                </div>
+                <% cell++ %>
+              <% } %>
+            </th>
+            <% tbl_column++ %>
+            <% } %>                             
+          </tr>
+          <% tbl_row++ %>  
+          <% } %>      
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- popup -->
+    <div class="popup-overlay">
+      <div class="popup-content">
+        <form class="field" action="/add_schedule" method="POST">
+          <div class="info">Schedule Information</div>
+          <input type="text" name="sa" class="text-field field_second" placeholder="SA Assigned">
+          <input type="text" name="sales" class="text-field field_second" placeholder="TM/AM Assigned"><br>
+          <input type="text" name="account" class="text-field" placeholder="Account Name"><br>
+          <input type="time" name="start_time" class="text-field field_second" placeholder="starting time">
+          <input type="time" name="end_time" class="text-field field_second" placeholder="end time"><br>
+          <input type="text" name="room" class="text-field" placeholder="Meeting Room"><br>
+          <button class="submit_button" type="submit">Save</button>
+        </form>
+        <button class="close_button">Close</button>
+      </div>  
+    </div>  
+    <!-- popup -->
+  
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">    
+    </script>
+    <script src="script/script.js"></script>
+  
+  </body>
+  

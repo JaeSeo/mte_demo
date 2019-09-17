@@ -2,37 +2,76 @@ const mongoose = require('mongoose');
 
 const Schedule = require('../models/schedule');
 
+//date js object
+const date = new Date();
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+let monthNum = date.getMonth();
+let month = monthNames[monthNum];//this month
+let year = date.getFullYear();//this year
+
+let firstDate = new Date(date.getFullYear(), monthNum, 1);
+let firstDay = firstDate.getDay();
+let lastDate = new Date(date.getFullYear(), monthNum + 1, 0); 
+let last = lastDate.getDate();
+let preLastDate = new Date(date.getFullYear(), monthNum, 0);//전 달 마지막날
+let preLast = preLastDate.getDate();
+
 exports.getIndex = (req, res, next) => {
   Schedule.find()
-    .then(schedules => {
-      console.log(schedules);
-      res.render('index', {
-        schedules: schedules
-      });
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
-};
+  .then(schedules => {
+    console.log(schedules);
+    //date calculation when hitting next or previous month button.
+    if (req.query.preMonth) {
+      monthNum = +req.query.preMonth - 1;
+      month = monthNames[monthNum];
+      //Update start and last day
+      firstDate = new Date(date.getFullYear(), monthNum, 1);//이 달 객체(첫날)
+      firstDay = firstDate.getDay();//이달 요일
+      lastDate = new Date(date.getFullYear(), monthNum + 1 , 0);//이 달 마지막날
+      last = lastDate.getDate();
+      preLastDate = new Date(date.getFullYear(), monthNum, 0);//전 달 마지막날
+      preLast = preLastDate.getDate();
+            
+      if (monthNum < 0) {
+        monthNum = 11
+        month = monthNames[monthNum];
+        year--;
+      }
+    }
+    if (req.query.postMonth) {
+      monthNum = +req.query.postMonth + 1;
+      month = monthNames[monthNum];
+      //Update start and last day
+      firstDate = new Date(date.getFullYear(), monthNum, 1);
+      firstDay = firstDate.getDay();
+      lastDate = new Date(date.getFullYear(), monthNum + 1, 0);
+      last = lastDate.getDate(); 
+      preLastDate = new Date(date.getFullYear(), monthNum, 0);//전 달 마지막날
+      preLast = preLastDate.getDate();
 
-// exports.getIndex = (req, res, next) => {
-//     Schedule.find()
-//     .then(schedules => {
-//         for (let schedule of schedules) {
-//             console.log(schedule);
-//             res.render('index', {
-//                 schedule: schedule
-//             });
-//         };
-//     })
-//     .catch(err => {
-//     const error = new Error(err);
-//     error.httpStatusCode = 500;
-//     return next(error);
-//     });
-// };  
+      if (monthNum > 11) {
+        monthNum = 0
+        month = monthNames[monthNum];
+        year++;        
+      }
+    }  
+    //rendering
+    res.render('index', {
+      schedules: schedules,
+      firstDay: firstDay,
+      lastDate: last,
+      preLastDate: preLast,
+      month: month,
+      monthNum: monthNum,
+      year: year
+    });
+  })
+  .catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
+};
 
 exports.postSchedule = (req, res, next) => {
   const cellId = req.body.cellId;

@@ -9,10 +9,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<body class="body">
+<body class="body"> 
+
   <img src="images/mte.png" style="width: 100%" id="logo">
   <div class="table-body mx-auto" style="width: 1200px;">
-    <div id="month">September 2019</div>
+    <div id="month"><a href="?preMonth=<%= monthNum %>"><</a><div style="display: inline-block; width: 60px; margin-right: 10px; margin-left: 10px;"><%= month %></div><div style="display: inline-block; margin-right: 10px;"><%= year %></div><a href="?postMonth=<%= monthNum %>">></a></div>
     <table class="table table-bordered">
       <thead class="table-head">
         <tr>
@@ -26,41 +27,51 @@
         </tr>
       </thead>
       <tbody>
-        <% let date = 1 %>
-        
+        <% let cellCount = 1 %>
+        <% let day = firstDay + 1 %><%# 시작 요일 %>
+        <% let date = preLastDate - day + 1 %><%# 지난 달 끝일 이어서 나오도록 설정%>
+        <% if (date >= preLastDate) { date = 1 } %><%# 시작날이 일요일 경우를 위해 date 미리 업데이트 %>        
+
         <%# 테이블 행 while문 %>
         <% let tbl_row = 0 %>
         <% while (tbl_row < 5) { %>
         <tr>
           <%# 테이블 열 while문 %>
           <% let tbl_column = 0 %>
-          <% while (tbl_column < 7 && date < 32) { %>
+          <% while (tbl_column < 7) { %>
           <th scope="row">
             <%# 날짜 추가 %>
+
             <div style="background-color: rgb(255, 242, 221)">
-            <%= date %>
-            <% date++ %>
+              <% cellCount++ %> 
+              <%= date %>
+              <% date++ %>
+
+              <% if (date > lastDate || date >= preLastDate) { date = 1 } %><%# 지난 달 마지막일 찍으면 1부터 시작하도록 설정%>
+    
             </div>
 
-            <%# cell 추가 while문 %>            
-            <% let cell = 0 %>
-            <% while (cell < 6) { %>
+              <%# cell 추가 while문 %>            
+              <% let cell = 0 %>
+              <% while (cell < 6) { %>
 
-              <%# cell 식별 id 설정 %>
-              <% let cell_id = [cell, date] %>
-              <div class="inner_cell" id=<%= cell_id %>>
-                <%# DB에서 값 받아서 렌더링 %>
-                <% for (let schedule of schedules) { %>
-                  <% if (schedule.cellId == cell_id) { %>
-                    <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px;">                    
-                    <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
-                    </div>
-                    <% break %>
-                  <% } %>
-                <% } %>  
-              </div>
-              <% cell++ %>
-            <% } %>
+                <%# cell 식별 id 설정 %>
+                <% let cell_id = [cell + 1, date - 1, monthNum + 1, year] %><%#cell id가 cell순서, 일, 월, 년을 나타내도록 보정/수정 %>
+                <div class="inner_cell" id=<%= cell_id %>>
+                  <%# DB에서 값 받아서 렌더링 %>
+                  <% for (let schedule of schedules) { %>
+                    <% if (schedule.cellId == cell_id) { %>
+                      <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px;">                    
+                      <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                      </div>
+                      <% break %>
+                    <% } %>
+                  <% } %>  
+                </div>
+
+                <% cell++ %>
+              <% } %>
+
           </th>
           <% tbl_column++ %>
           <% } %>                             
