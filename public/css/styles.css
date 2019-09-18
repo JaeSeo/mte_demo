@@ -89,6 +89,13 @@ thead tr {
 .popup-content.active {
   /*Shows pop-up content when "active" class is present */
   visibility: visible;
+  animation: mymove 0.5s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes mymove {
+  from {top: 0px;}
+  to {bottom: 200px;}
 }
 
 .info {
@@ -99,7 +106,7 @@ thead tr {
 
 .background_change {
   /* background-color: rgba(0,0,0,0.1); */
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 /* input field */
