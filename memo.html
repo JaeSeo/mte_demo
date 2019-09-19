@@ -186,3 +186,68 @@
   
   </body>
   
+
+
+  <tbody>
+      <% let cellCount = 1 %>
+      <% let day = firstDay + 1 %><%# 시작 요일 %>
+      <% let date = preLastDate - day + 2 %><%# 지난 달 끝일 이어서 나오도록 설정%>
+      <% if (date >= preLastDate) { date = 1 } %><%# 시작날이 일요일 경우를 위해 date 미리 업데이트 %>
+      <% let monthId = monthNum %>
+      <% let dateId = date - 1 %> 
+      <% if (date = 1) { monthId = monthNum + 1 } %>
+      <% let executed = false %><%# 지난 달 마지막 일 지났는지 확인하는 함수 실행 여부 %>       
+      <% let executedSecond = false %>
+      <% console.log(date, day, preLastDate) %>
+
+      <%# 테이블 행 while문 %>
+      <% let tbl_row = 0 %>
+      <% while (tbl_row < 5) { %>
+      <tr>
+        <%# 테이블 열 while문 %>
+        <% let tbl_column = 0 %>
+        <% while (tbl_column < 7) { %>
+        <th scope="row">
+          <%# 날짜 추가 %>
+
+          <div style="background-color: rgb(255, 242, 221);">
+            <% cellCount++ %>
+            <%= date %>
+            <% date++ %>
+            <% dateId++ %>
+            <% if (date > preLastDate && executed == false) { date = 1, executed = true } %><%# 지난 달 마지막일 찍으면 1부터 시작하도록 설정%>
+            <% if (date == 2 && executed == true && executedSecond == false) { dateId = 1, monthId = monthNum + 1, executedSecond = true } %>
+            <% if (date > lastDate && executed == true) { date = 1 } %>
+            <% if (dateId > lastDate && executed == true) { dateId = 1, monthId = monthNum + 2 } %>
+            <% if (date > lastDate && day == 1) { date = 1 } %><%#일요일이 1일인 경우 바로 위 라인 로직이 동작하지 않음. 이를 해결하기 위한 로직.%>    
+            <% if (dateId > lastDate && day == 1) { dateId = 1, monthId = monthNum + 2 } %>
+          </div>
+
+            <%# cell 추가 while문 %>            
+            <% let cell = 0 %>
+            <% while (cell < 6) { %>
+
+              <%# cell 식별 id 설정 %>
+              <% let cell_id = [cell + 1, dateId, monthId, year] %><%#cell id가 cell순서, 일, 월, 년을 나타내도록 보정/수정 %>
+              <div class="inner_cell" id=<%= cell_id %>>
+                <%# DB에서 값 받아서 렌더링 %>
+                <% for (let schedule of schedules) { %>
+                  <% if (schedule.cellId == cell_id) { %>
+                    <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px;">                    
+                    <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                    </div>
+                    <% break %>
+                  <% } %>
+                <% } %>  
+              </div>
+
+              <% cell++ %>
+            <% } %>
+
+        </th>
+        <% tbl_column++ %>
+        <% } %>                             
+      </tr>
+      <% tbl_row++ %>  
+      <% } %>      
+    </tbody>

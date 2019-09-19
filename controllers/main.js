@@ -1,18 +1,6 @@
 const mongoose = require('mongoose');
 const Schedule = require('../models/schedule');
 
-// Load the SDK for JavaScript
-var AWS = require('aws-sdk');
-// Set the Region 
-AWS.config.update({region: 'ap-northeast-2'});
-
-// Load the AWS SDK for Node.js
-var AWS = require('aws-sdk');
-// Set the region 
-AWS.config.update({region: 'ap-northeast-2'});
-var credentials = new AWS.SharedIniFileCredentials({profile: 'mte'});
-AWS.config.credentials = credentials;
-
 //js date object
 const date = new Date();
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -85,6 +73,7 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.postSchedule = (req, res, next) => {
+
   const cellId = req.body.cellId;
   const sa = req.body.sa;
   const sales = req.body.sales;
@@ -92,6 +81,7 @@ exports.postSchedule = (req, res, next) => {
   const start_time = req.body.start_time;
   const end_time = req.body.end_time;
   const room = req.body.room;
+  const files = req.file;
 
   const schedule = new Schedule({
     cellId: cellId,
@@ -102,12 +92,14 @@ exports.postSchedule = (req, res, next) => {
     end_time: end_time,
     room: room
   });
+
   schedule
     .save()
     .then(result => {
       // console.log(result);
       console.log('Created Schedule');
       res.redirect('/');
+      next();
     })
     .catch(err => {
       res.render('error');
@@ -116,8 +108,6 @@ exports.postSchedule = (req, res, next) => {
       return next(error);
     });
 };
-
-
 
 // exports.postDeleteProduct = (req, res, next) => {
 //   const prodId = req.body.productId;
