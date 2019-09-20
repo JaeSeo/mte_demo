@@ -8,12 +8,10 @@ let monthNum = date.getMonth();
 let month = monthNames[monthNum];//this month
 let year = date.getFullYear();//this year
 
-let firstDate = new Date(date.getFullYear(), monthNum, 1);
+let firstDate = new Date(year, monthNum, 1);
 let firstDay = firstDate.getDay();
-let lastDate = new Date(date.getFullYear(), monthNum + 1, 0); 
+let lastDate = new Date(year, monthNum + 1, 0); 
 let last = lastDate.getDate();
-let preLastDate = new Date(date.getFullYear(), monthNum, 0);//전 달 마지막날
-let preLast = preLastDate.getDate();
 
 exports.getIndex = (req, res, next) => {
   Schedule.find()
@@ -24,34 +22,38 @@ exports.getIndex = (req, res, next) => {
       monthNum = +req.query.preMonth - 1;
       month = monthNames[monthNum];
       //Update start and last day
-      firstDate = new Date(date.getFullYear(), monthNum, 1);//이 달 객체(첫날)
+      firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
       firstDay = firstDate.getDay();//이달 요일
-      lastDate = new Date(date.getFullYear(), monthNum + 1 , 0);//이 달 마지막날
+      lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
       last = lastDate.getDate();
-      preLastDate = new Date(date.getFullYear(), monthNum, 0);//전 달 마지막날
-      preLast = preLastDate.getDate();
             
       if (monthNum < 0) {
         monthNum = 11
         month = monthNames[monthNum];
         year--;
+        firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
+        firstDay = firstDate.getDay();//이달 요일
+        lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
+        last = lastDate.getDate();
       }
     }
     if (req.query.postMonth) {
       monthNum = +req.query.postMonth + 1;
       month = monthNames[monthNum];
       //Update start and last day
-      firstDate = new Date(date.getFullYear(), monthNum, 1);
+      firstDate = new Date(year, monthNum, 1);
       firstDay = firstDate.getDay();
-      lastDate = new Date(date.getFullYear(), monthNum + 1, 0);
+      lastDate = new Date(year, monthNum + 1, 0);
       last = lastDate.getDate(); 
-      preLastDate = new Date(date.getFullYear(), monthNum, 0);//전 달 마지막날
-      preLast = preLastDate.getDate();
 
       if (monthNum > 11) {
         monthNum = 0
         month = monthNames[monthNum];
-        year++;        
+        year++;
+        firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
+        firstDay = firstDate.getDay();//이달 요일
+        lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
+        last = lastDate.getDate();        
       }
     }  
     //rendering
@@ -59,7 +61,6 @@ exports.getIndex = (req, res, next) => {
       schedules: schedules,
       firstDay: firstDay,
       lastDate: last,
-      preLastDate: preLast,
       month: month,
       monthNum: monthNum,
       year: year

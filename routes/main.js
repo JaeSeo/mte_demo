@@ -26,7 +26,7 @@ let upload = multer({
     bucket: "meet-the-expert-dev",
     key: function (req, file, cb) {
       let extension = path.extname(file.originalname);
-      cb(null, req.body.cellId)
+      cb(null, req.body.cellId + extension)
     }
   })
 })
