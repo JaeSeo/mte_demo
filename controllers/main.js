@@ -13,49 +13,62 @@ let firstDay = firstDate.getDay();
 let lastDate = new Date(year, monthNum + 1, 0); 
 let last = lastDate.getDate();
 
+let lastMonthId = monthNum;
+let thisMonthId = monthNum + 1;
+let nextMonthId = monthNum + 2;
+
+if (lastMonthId == 0) {
+  lastMonthId = 12;
+}
+
+if (nextMonthId == 13) {
+  nextMonthId = 1;
+}
+
 exports.getIndex = (req, res, next) => {
-  Schedule.find()
-  .then(schedules => {
-    console.log(schedules);
-    //date calculation when hitting next or previous month button.
-    if (req.query.preMonth) {
-      monthNum = +req.query.preMonth - 1;
+  if (req.query.preMonth) {
+    monthNum = +req.query.preMonth - 1;
+    month = monthNames[monthNum];
+    //Update start and last day
+    firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
+    firstDay = firstDate.getDay();//이달 요일
+    lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
+    last = lastDate.getDate();
+          
+    if (monthNum < 0) {
+      monthNum = 11
       month = monthNames[monthNum];
-      //Update start and last day
+      year--;
       firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
       firstDay = firstDate.getDay();//이달 요일
       lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
       last = lastDate.getDate();
-            
-      if (monthNum < 0) {
-        monthNum = 11
-        month = monthNames[monthNum];
-        year--;
-        firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
-        firstDay = firstDate.getDay();//이달 요일
-        lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
-        last = lastDate.getDate();
-      }
     }
-    if (req.query.postMonth) {
-      monthNum = +req.query.postMonth + 1;
-      month = monthNames[monthNum];
-      //Update start and last day
-      firstDate = new Date(year, monthNum, 1);
-      firstDay = firstDate.getDay();
-      lastDate = new Date(year, monthNum + 1, 0);
-      last = lastDate.getDate(); 
+  }
+  if (req.query.postMonth) {
+    monthNum = +req.query.postMonth + 1;
+    month = monthNames[monthNum];
+    //Update start and last day
+    firstDate = new Date(year, monthNum, 1);
+    firstDay = firstDate.getDay();
+    lastDate = new Date(year, monthNum + 1, 0);
+    last = lastDate.getDate(); 
 
-      if (monthNum > 11) {
-        monthNum = 0
-        month = monthNames[monthNum];
-        year++;
-        firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
-        firstDay = firstDate.getDay();//이달 요일
-        lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
-        last = lastDate.getDate();        
-      }
-    }  
+    if (monthNum > 11) {
+      monthNum = 0
+      month = monthNames[monthNum];
+      year++;
+      firstDate = new Date(year, monthNum, 1);//이 달 객체(첫날)
+      firstDay = firstDate.getDay();//이달 요일
+      lastDate = new Date(year, monthNum + 1 , 0);//이 달 마지막날
+      last = lastDate.getDate();        
+    }
+  }  
+  //query to mongoose
+  Schedule.find({monthId: `${monthNum + 1}` })
+  .then(schedules => {
+    console.log(schedules);
+    //date calculation when hitting next or previous month button.
     //rendering
     res.render('index', {
       schedules: schedules,
@@ -82,7 +95,7 @@ exports.postSchedule = (req, res, next) => {
   const start_time = req.body.start_time;
   const end_time = req.body.end_time;
   const room = req.body.room;
-  const files = req.file;
+  const monthId = req.body.monthId;
 
   const schedule = new Schedule({
     cellId: cellId,
@@ -91,7 +104,8 @@ exports.postSchedule = (req, res, next) => {
     account: account,
     start_time: start_time,
     end_time: end_time,
-    room: room
+    room: room,
+    monthId: monthId
   });
 
   schedule

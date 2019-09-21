@@ -66,7 +66,7 @@
                   #e8f2fc 20px
                 );">
                 <% } else { %>
-                <div class="inner_cell" id=<%= cell_id %>>    
+                <div class="inner_cell" id=<%= cell_id %> monthId=<%= monthNum + 1 %>>    
                   <%# DB에서 값 받아서 렌더링 %>
                   <% for (let schedule of schedules) { %>
                     <% if (schedule.cellId == cell_id) { %>
@@ -101,6 +101,7 @@
         <input type="time" name="start_time" class="text-field field_second" placeholder="starting time">
         <input type="time" name="end_time" class="text-field field_second" placeholder="end time"><br>
         <input type="text" name="room" class="text-field" placeholder="Meeting Room"><br>
+        <!-- <input type="hidden" name="email" value="wogus1264@gmail.com"><br> -->
         <input type="file" name="files"><br>
         <button class="submit_button" type="submit">Save</button>
       </form>

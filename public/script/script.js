@@ -19,9 +19,11 @@ $('.dynamic_cell').mouseleave(function() {
 $(".inner_cell").on("click", function() {
   $('#dynamic_input').remove();  //popup창에 있는 이전 hidden value 삭제
   let cellId = $(this).attr('id');
+  let monthId = $(this).attr('monthId');
   console.log(cellId);
   $('.field').prepend(`<input type="hidden" id="dynamic_input" name="cellId" value=${cellId}>`);
-  
+  $('.field').prepend(`<input type="hidden" id="dynamic_input" name="monthId" value=${monthId}>`);
+
   $(".popup-overlay, .popup-content").addClass("active");
   $(".table-body, img").addClass("background_change");
 });

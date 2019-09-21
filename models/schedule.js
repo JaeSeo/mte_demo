@@ -30,6 +30,10 @@ const scheduleSchema = new Schema({
   room: {
     type: String,
     required: true
+  },
+  monthId: {
+    type: Number,
+    required: true
   }  
 });
 
