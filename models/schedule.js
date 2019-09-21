@@ -19,11 +19,11 @@ const scheduleSchema = new Schema({
     type: String,
     required: true
   },
-  start_time: {
+  startTime: {
     type: String,
     required: true
   },
-  end_time: {
+  endTime: {
     type: String,
     required: true
   },
@@ -34,7 +34,11 @@ const scheduleSchema = new Schema({
   monthId: {
     type: Number,
     required: true
-  }  
+  },
+  yearId: {
+    type: Number,
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Schedule', scheduleSchema);

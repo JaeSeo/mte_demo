@@ -66,11 +66,11 @@
                   #e8f2fc 20px
                 );">
                 <% } else { %>
-                <div class="inner_cell" id=<%= cell_id %> monthId=<%= monthNum + 1 %>>    
+                <div class="inner_cell" id=<%= cell_id %> cellNum=<%= cell + 1 %> monthId=<%= monthNum + 1 %> yearId=<%= year %>>    
                   <%# DB에서 값 받아서 렌더링 %>
                   <% for (let schedule of schedules) { %>
                     <% if (schedule.cellId == cell_id) { %>
-                      <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px;">                    
+                      <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px;" account=<%= schedule.account %> sales=<%= schedule.sales %> sa=<%= schedule.sa %> startTime=<%= schedule.startTime %> endTime=<%= schedule.endTime %>>                    
                       <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
                       </div>
                       <% break %>
@@ -97,11 +97,10 @@
         <div class="info">Schedule Information</div>
         <input type="text" name="sa" class="text-field field_second" placeholder="SA Assigned">
         <input type="text" name="sales" class="text-field field_second" placeholder="TM/AM Assigned"><br>
-        <input type="text" name="account" class="text-field" placeholder="Account Name"><br>
-        <input type="time" name="start_time" class="text-field field_second" placeholder="starting time">
-        <input type="time" name="end_time" class="text-field field_second" placeholder="end time"><br>
+        <input type="text" name="account" class="text-field" id='account-name' placeholder="Account Name"><br>
+        <!-- <input type="time" name="start_time" class="text-field field_second" placeholder="starting time">
+        <input type="time" name="end_time" class="text-field field_second" placeholder="end time"><br> -->
         <input type="text" name="room" class="text-field" placeholder="Meeting Room"><br>
-        <!-- <input type="hidden" name="email" value="wogus1264@gmail.com"><br> -->
         <input type="file" name="files"><br>
         <button class="submit_button" type="submit">Save</button>
       </form>
@@ -109,6 +108,16 @@
     </div>  
   </div>  
   <!-- popup -->
+
+  <!-- popup -->
+  <div class="scheduled-popup-overlay">
+    <div class="scheduled-popup-content">
+      <div class="scheduled-info">Schedule Information</div>
+      <a class="download_button" href="/">Download Files</a>
+      <button class="close_button">Close</button>
+    </div>  
+  </div>  
+    <!-- popup -->
 
   <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"

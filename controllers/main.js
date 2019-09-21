@@ -96,7 +96,7 @@ exports.getIndex = (req, res, next) => {
     }
   }  
   //query to mongoose
-  Schedule.find({monthId: `${monthNum + 1}` })
+  Schedule.find({$and: [{monthId: `${monthNum + 1}`}, {yearId: `${year}`}]})
   .then(schedules => {
     console.log(schedules);
     //date calculation when hitting next or previous month button.
@@ -123,20 +123,22 @@ exports.postSchedule = (req, res, next) => {
   const sa = req.body.sa;
   const sales = req.body.sales;
   const account = req.body.account;
-  const start_time = req.body.start_time;
-  const end_time = req.body.end_time;
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
   const room = req.body.room;
   const monthId = req.body.monthId;
+  const yearId = req.body.yearId;
 
   const schedule = new Schedule({
     cellId: cellId,
     sa: sa,
     sales: sales,
     account: account,
-    start_time: start_time,
-    end_time: end_time,
+    startTime: startTime,
+    endTime: endTime,
     room: room,
-    monthId: monthId
+    monthId: monthId,
+    yearId: yearId
   });
 
   schedule
