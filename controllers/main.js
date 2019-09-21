@@ -1,6 +1,37 @@
 const mongoose = require('mongoose');
 const Schedule = require('../models/schedule');
 
+// Load the AWS SDK for Node.js
+var AWS = require('aws-sdk');
+// Set the region 
+var credentials = new AWS.SharedIniFileCredentials({profile: 'mte'});
+AWS.config.credentials = credentials;
+
+//ses
+var params = {
+  Destination: { 
+    ToAddresses: [
+      'wogus1264@gmail.com',
+    ]
+  },
+  Message: {
+    Body: {
+      Html: {
+       Charset: "UTF-8",
+       Data: "New MTE meeting has been scheduled!"
+      }
+     },
+     Subject: {
+      Charset: 'UTF-8',
+      Data: 'Meet The Expert'
+     }
+    },
+  Source: 'jaehyes@amazon.com',
+  ReplyToAddresses: [
+     'jaehyes@amazon.com',
+  ],
+};
+
 //js date object
 const date = new Date();
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -122,6 +153,18 @@ exports.postSchedule = (req, res, next) => {
       error.httpStatusCode = 500;
       return next(error);
     });
+
+  AWS.config.update({region: 'us-east-1'});
+  var sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise.then(
+    function(data) {
+      console.log(data.MessageId);
+    }).catch(
+      function(err) {
+      console.error(err, err.stack);
+    });  
 };
 
 // exports.postDeleteProduct = (req, res, next) => {
