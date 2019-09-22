@@ -50,8 +50,6 @@ $(".inner_cell").on("click", function() {
     endingTime = '18:00';
   }
 
-  
-
   $('#account-name').after(`<br class="dynamic_br"><input type="text" name="startTime" class="text-field field_second time-box" value="${startingTime}">
   <input type="text" name="endTime" class="text-field field_second time-box" value="${endingTime}">`);
 
@@ -86,6 +84,10 @@ $(".dynamic_cell").on("click", function() {
   $('.scheduled-info').append(`<form action="/download" class="dynamic_info" method="POST">
   <input type="hidden" name="cellId" value=${cellId}>
   <button class="submit_button" type="submit">File Download</button>
+  </form>`);
+  $('.scheduled-info').append(`<form action="/delete" class="dynamic_info" method="POST">
+  <input type="hidden" name="cellId" value=${cellId}>
+  <button class="submit_button" type="submit">Delete</button>
   </form>`);
 
   $(".scheduled-popup-overlay, .scheduled-popup-content").addClass("active");

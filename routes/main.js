@@ -39,6 +39,8 @@ router.get('/', mainController.getIndex);
 // POST
 router.post('/add_schedule', upload.single("files"), mainController.postSchedule);
 
+router.post('/delete', mainController.postDelete);
+
 router.post('/download', downloadController.download);
 
 module.exports = router;

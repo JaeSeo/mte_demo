@@ -4,6 +4,8 @@ const Schedule = require('../models/schedule');
 // Load the AWS SDK for Node.js
 var AWS = require('aws-sdk');
 // Set the region 
+AWS.config.update({region: 'ap-northeast-2'});
+// AWS Credentials
 var credentials = new AWS.SharedIniFileCredentials({profile: 'mte'});
 AWS.config.credentials = credentials;
 
@@ -174,16 +176,31 @@ exports.postSchedule = (req, res, next) => {
   //   });  
 };
 
-// exports.postDeleteProduct = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   Product.deleteOne({ _id: prodId, userId: req.user._id })
-//     .then(() => {
-//       console.log('DESTROYED PRODUCT');
-//       res.redirect('/admin/products');
-//     })
-//     .catch(err => {
-//       const error = new Error(err);
-//       error.httpStatusCode = 500;
-//       return next(error);
-//     });
-// };
+exports.postDelete = (req, res, next) => {
+  const cellId = req.body.cellId;
+
+  Schedule.findOne({ cellId: cellId })
+  .then(scheduleInfo => {
+    if (scheduleInfo.keyValue) {
+      console.log(scheduleInfo);
+      const keyValue = scheduleInfo.keyValue;
+      var s3 = new AWS.S3();
+      var params = {Bucket: 'meet-the-expert-dev', Key: keyValue};
+      s3.deleteObject(params, function(err, data) {
+        if (err) console.log(err, err.stack);  // error
+        else console.log('Object deleted.');                 // deleted
+      });
+    }
+  })
+
+  Schedule.deleteOne({ cellId: cellId })
+    .then(() => {
+      console.log('DESTROYED PRODUCT');
+      res.redirect('/');
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
