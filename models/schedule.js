@@ -38,6 +38,14 @@ const scheduleSchema = new Schema({
   yearId: {
     type: Number,
     required: true
+  },
+  keyValue: {
+    type: String,
+    required: false
+  },
+  extension: {
+    type: String,
+    required: false
   }
 });
 

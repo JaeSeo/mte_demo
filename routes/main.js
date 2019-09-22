@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 
 const mainController = require('../controllers/main');
+const downloadController = require('../controllers/download');
 
 const router = express.Router();
 
@@ -27,6 +28,8 @@ let upload = multer({
     key: function (req, file, cb) {
       let extension = path.extname(file.originalname);
       cb(null, req.body.cellId + extension)
+      req.body.keyValue = req.body.cellId + extension;
+      req.body.extension = extension;
     }
   })
 })
@@ -35,5 +38,7 @@ let upload = multer({
 router.get('/', mainController.getIndex);
 // POST
 router.post('/add_schedule', upload.single("files"), mainController.postSchedule);
+
+router.post('/download', downloadController.download);
 
 module.exports = router;

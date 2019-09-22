@@ -50,6 +50,8 @@ $(".inner_cell").on("click", function() {
     endingTime = '18:00';
   }
 
+  
+
   $('#account-name').after(`<br class="dynamic_br"><input type="text" name="startTime" class="text-field field_second time-box" value="${startingTime}">
   <input type="text" name="endTime" class="text-field field_second time-box" value="${endingTime}">`);
 
@@ -60,7 +62,7 @@ $(".inner_cell").on("click", function() {
 //on click the scheduled cell
 $(".dynamic_cell").on("click", function() {
   $('#dynamic_input').remove();  //popup창에 있는 이전 hidden value 삭제
-  let cellId = $(this).attr('id');
+  let cellId = $(this).attr('cellId');
   let monthId = $(this).attr('monthId');
   let yearId = $(this).attr('yearId');
 
@@ -69,6 +71,7 @@ $(".dynamic_cell").on("click", function() {
   let sa = $(this).attr('sa');
   let startTime = $(this).attr('startTime');
   let endTime = $(this).attr('endTime');
+  let room = $(this).attr('room')
   console.log(cellId);
   $('.field').prepend(`<input type="hidden" class="dynamic_input" name="cellId" value=${cellId}>`);
   $('.field').prepend(`<input type="hidden" class="dynamic_input" name="monthId" value=${monthId}>`);
@@ -79,7 +82,11 @@ $(".dynamic_cell").on("click", function() {
   $('.scheduled-info').append(`<div type="text" class="dynamic_info">SA: ${sa}</div>`);
   $('.scheduled-info').append(`<div type="text" class="dynamic_info">Start: ${startTime}</div>`);
   $('.scheduled-info').append(`<div type="text" class="dynamic_info">End: ${endTime}</div>`);
-
+  $('.scheduled-info').append(`<div type="text" class="dynamic_info">Meeting Room: ${room}</div>`);
+  $('.scheduled-info').append(`<form action="/download" class="dynamic_info" method="POST">
+  <input type="hidden" name="cellId" value=${cellId}>
+  <button class="submit_button" type="submit">File Download</button>
+  </form>`);
 
   $(".scheduled-popup-overlay, .scheduled-popup-content").addClass("active");
   $(".table-body, img").addClass("background_change");

@@ -70,8 +70,8 @@
                   <%# DB에서 값 받아서 렌더링 %>
                   <% for (let schedule of schedules) { %>
                     <% if (schedule.cellId == cell_id) { %>
-                      <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px;" account=<%= schedule.account %> sales=<%= schedule.sales %> sa=<%= schedule.sa %> startTime=<%= schedule.startTime %> endTime=<%= schedule.endTime %>>                    
-                      <%= schedule.sales %><%= ' / ' %><%= schedule.account %>
+                      <div class="dynamic_cell" style="background-color: aquamarine; height: 100%; padding: 2px; overflow: hidden;" cellId=<%= cell_id %> account=<%= schedule.account %> sales=<%= schedule.sales %> sa=<%= schedule.sa %> startTime=<%= schedule.startTime %> endTime=<%= schedule.endTime %> room=<%= schedule.room %>>                    
+                      <%= schedule.sales %><%= ' / ' %><%= schedule.sa %><%= ' / ' %><%= schedule.account %>
                       </div>
                       <% break %>
                     <% } %>
@@ -98,8 +98,6 @@
         <input type="text" name="sa" class="text-field field_second" placeholder="SA Assigned">
         <input type="text" name="sales" class="text-field field_second" placeholder="TM/AM Assigned"><br>
         <input type="text" name="account" class="text-field" id='account-name' placeholder="Account Name"><br>
-        <!-- <input type="time" name="start_time" class="text-field field_second" placeholder="starting time">
-        <input type="time" name="end_time" class="text-field field_second" placeholder="end time"><br> -->
         <input type="text" name="room" class="text-field" placeholder="Meeting Room"><br>
         <input type="file" name="files"><br>
         <button class="submit_button" type="submit">Save</button>
@@ -109,15 +107,15 @@
   </div>  
   <!-- popup -->
 
-  <!-- popup -->
+  <!-- scheduled popup -->
   <div class="scheduled-popup-overlay">
     <div class="scheduled-popup-content">
       <div class="scheduled-info">Schedule Information</div>
-      <a class="download_button" href="/">Download Files</a>
+      <!-- <a class="download_button" href="/download">Download Files</a> -->
       <button class="close_button">Close</button>
     </div>  
   </div>  
-    <!-- popup -->
+    <!-- scheduled popup -->
 
   <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"

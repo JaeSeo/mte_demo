@@ -128,17 +128,21 @@ exports.postSchedule = (req, res, next) => {
   const room = req.body.room;
   const monthId = req.body.monthId;
   const yearId = req.body.yearId;
+  const keyValue = req.body.keyValue;//s3 object key
+  const extension = req.body.extension;
 
   const schedule = new Schedule({
     cellId: cellId,
+    monthId: monthId,
+    yearId: yearId,
     sa: sa,
     sales: sales,
     account: account,
     startTime: startTime,
     endTime: endTime,
     room: room,
-    monthId: monthId,
-    yearId: yearId
+    keyValue: keyValue,
+    extension: extension
   });
 
   schedule
@@ -160,13 +164,14 @@ exports.postSchedule = (req, res, next) => {
   var sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise();
 
   // Handle promise's fulfilled/rejected states
-  sendPromise.then(
-    function(data) {
-      console.log(data.MessageId);
-    }).catch(
-      function(err) {
-      console.error(err, err.stack);
-    });  
+  // activate below for SES
+  // sendPromise.then(
+  //   function(data) {
+  //     console.log(data.MessageId);
+  //   }).catch(
+  //     function(err) {
+  //     console.error(err, err.stack);
+  //   });  
 };
 
 // exports.postDeleteProduct = (req, res, next) => {
