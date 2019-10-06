@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const MONGODB_URI = `mongodb+srv://jaehyes:52789ses@cluster0-ckra1.mongodb.net/mte?retryWrites=true&w=majority`;
+const MONGODB_URI = `mongodb+srv://jaehyes:52789ses@cluster0-ckra1.mongodb.net/newTest?retryWrites=true&w=majority`;
 
 const app = express();
 const store = new MongoDBStore({

@@ -1,4 +1,52 @@
-       
+$('.scheduled-info').append(`
+<div type="text" class="dynamic_info">
+  <div class="dynamic_info_content"> Account: ${account} </div>
+  <div class="dynamic_info_content"> AM/TM: ${sales} </div>
+  <div class="dynamic_info_content"> Sa: ${sa} </div>
+</div>
+`);
+$('.scheduled-info').append(`
+<div type="text" class="dynamic_info">
+  <div class="dynamic_info_content"> Meeting Room: ${room} </div>
+</div>
+`);
+$('.scheduled-info').append(`
+<div type="text" class="dynamic_info">
+  <div class="dynamic_info_content"> Start: ${startTime} </div>
+  <div class="dynamic_info_content"> End: ${endTime} </div>
+</div>
+`);
+
+
+$('.scheduled-info').append(`<form action="/download" class="dynamic_info dynamic_download" method="POST">
+  <input type="hidden" name="cellId" value=${cellId}>
+  <button class="submit_button download-button" type="submit">File Download</button>
+  </form>`);
+  $('.scheduled-info').append(`<form action="/delete" class="dynamic_info" method="POST">
+  <input type="hidden" name="cellId" value=${cellId}>
+  <button class="submit_button button" type="submit">Delete</button>
+  </form>`);
+
+  $(".scheduled-popup-overlay, .scheduled-popup-content").addClass("active");
+  $(".table-body, img").addClass("background_change");
+
+
+$('.scheduled-info').append(`<div type="text" class="dynamic_info dynamic_account">Account: ${account}</div>`);
+$('.scheduled-info').append(`<div type="text" class="dynamic_info dynamic_sales">AM/TM: ${sales}</div>`);
+$('.scheduled-info').append(`<div type="text" class="dynamic_info dynamic_sa">SA: ${sa}</div>`);
+$('.scheduled-info').append(`<div type="text" class="dynamic_info dynamic_start_time">Start: ${startTime}</div>`);
+$('.scheduled-info').append(`<div type="text" class="dynamic_info dynamic_end_time">End: ${endTime}</div>`);
+$('.scheduled-info').append(`<div type="text" class="dynamic_info dynamic_room">Meeting Room: ${room}</div>`);
+$('.scheduled-info').append(`<form action="/download" class="dynamic_info dynamic_download" method="POST">
+<input type="hidden" name="cellId" value=${cellId}>
+<button class="submit_button download-button" type="submit">File Download</button>
+</form>`);
+$('.scheduled-info').append(`<form action="/delete" class="dynamic_info" method="POST">
+<input type="hidden" name="cellId" value=${cellId}>
+<button class="submit_button button" type="submit">Delete</button>
+</form>`); 
+ 
+
              <tbody>
                 <% let cellCount = 1 %>
                 <% let day = firstDay + 1 %><%# 시작 요일 %>

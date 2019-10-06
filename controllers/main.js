@@ -34,31 +34,31 @@ var params = {
   ],
 };
 
-//js date object
-const date = new Date();
-const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-let monthNum = date.getMonth();
-let month = monthNames[monthNum];//this month
-let year = date.getFullYear();//this year
-
-let firstDate = new Date(year, monthNum, 1);
-let firstDay = firstDate.getDay();
-let lastDate = new Date(year, monthNum + 1, 0); 
-let last = lastDate.getDate();
-
-let lastMonthId = monthNum;
-let thisMonthId = monthNum + 1;
-let nextMonthId = monthNum + 2;
-
-if (lastMonthId == 0) {
-  lastMonthId = 12;
-}
-
-if (nextMonthId == 13) {
-  nextMonthId = 1;
-}
-
 exports.getIndex = (req, res, next) => {
+  //js date object
+  const date = new Date();
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  let monthNum = date.getMonth();
+  let month = monthNames[monthNum];//this month
+  let year = date.getFullYear();//this year
+
+  let firstDate = new Date(year, monthNum, 1);
+  let firstDay = firstDate.getDay();
+  let lastDate = new Date(year, monthNum + 1, 0); 
+  let last = lastDate.getDate();
+
+  let lastMonthId = monthNum;
+  let thisMonthId = monthNum + 1;
+  let nextMonthId = monthNum + 2;
+
+  if (lastMonthId == 0) {
+    lastMonthId = 12;
+  }
+
+  if (nextMonthId == 13) {
+    nextMonthId = 1;
+  }
+  //changing months
   if (req.query.preMonth) {
     monthNum = +req.query.preMonth - 1;
     month = monthNames[monthNum];
@@ -100,7 +100,7 @@ exports.getIndex = (req, res, next) => {
   //query to mongoose
   Schedule.find({$and: [{monthId: `${monthNum + 1}`}, {yearId: `${year}`}]})
   .then(schedules => {
-    console.log(schedules);
+    // console.log(schedules);
     //date calculation when hitting next or previous month button.
     //rendering
     res.render('index', {
@@ -113,6 +113,7 @@ exports.getIndex = (req, res, next) => {
     });
   })
   .catch(err => {
+    res.render('Error');
     const error = new Error(err);
     error.httpStatusCode = 500;
     return next(error);
@@ -121,6 +122,18 @@ exports.getIndex = (req, res, next) => {
 
 exports.postSchedule = (req, res, next) => {
 
+  //check if there's any thing already booked.
+  Schedule.findOne({cellId: req.body.cellId})
+    .then(result => {
+      if ( result !== null ) {
+        res.render('dup');
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      }
+    });   
+  
+  //post schedule
   const cellId = req.body.cellId;
   const sa = req.body.sa;
   const sales = req.body.sales;
@@ -132,6 +145,19 @@ exports.postSchedule = (req, res, next) => {
   const yearId = req.body.yearId;
   const keyValue = req.body.keyValue;//s3 object key
   const extension = req.body.extension;
+
+  // if ( Schedule.find({cellId: cellId}) !== [] ) {
+  //   res.render('error');
+  //   const error = new Error();
+  //   error.httpStatusCode = 500;
+  //   return next(error);
+  //   // .then()
+  //   // .catch(err => {
+  //   //   const error = new Error(err);
+  //   //   error.httpStatusCode = 500;
+  //   //   return next(error);
+  //   // });
+  // };
 
   const schedule = new Schedule({
     cellId: cellId,
@@ -156,7 +182,7 @@ exports.postSchedule = (req, res, next) => {
       next();
     })
     .catch(err => {
-      res.render('error');
+      res.render('infoError');
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
@@ -199,6 +225,7 @@ exports.postDelete = (req, res, next) => {
       res.redirect('/');
     })
     .catch(err => {
+      res.render('Error');
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);

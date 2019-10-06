@@ -95,14 +95,14 @@
     <div class="popup-content">
       <form class="field" action="/add_schedule" method="POST" enctype="multipart/form-data">
         <div class="info">Schedule Information</div>
-        <input type="text" name="sa" class="text-field field_second" placeholder="SA Assigned">
-        <input type="text" name="sales" class="text-field field_second" placeholder="TM/AM Assigned"><br>
-        <input type="text" name="account" class="text-field" id='account-name' placeholder="Account Name"><br>
-        <input type="text" name="room" class="text-field" placeholder="Meeting Room"><br>
-        <input type="file" name="files"><br>
-        <button class="submit_button" type="submit">Save</button>
+        <input type="text" name="sa" class="text-field field_second" placeholder="SA Assigned" required="required">
+        <input type="text" name="sales" class="text-field field_second" placeholder="TM/AM Assigned" required="required"><br>
+        <input type="text" name="account" class="text-field" id='account-name' placeholder="Account Name" required="required"><br>
+        <input type="text" name="room" class="text-field" id='meeting-room' placeholder="Meeting Room" required="required"><br>
+        <input type="file" name="files" id="file-button"><br>
+        <button class="submit_button button" type="submit">Save</button>
       </form>
-      <button class="close_button">Close</button>
+      <button class="close_button button">Close</button>
     </div>  
   </div>  
   <!-- popup -->
@@ -112,7 +112,7 @@
     <div class="scheduled-popup-content">
       <div class="scheduled-info">Schedule Information</div>
       
-      <button class="close_button">Close</button>
+      <button class="close_button button dynamic_button">Close</button>
     </div>  
   </div>  
     <!-- scheduled popup -->
